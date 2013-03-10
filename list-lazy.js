@@ -72,7 +72,7 @@
     };
     /* prototypal properties */
     (function(o) {
-        for (p in o) defineProperty(Lazy.prototype, p, {
+        for (var p in o) defineProperty(Lazy.prototype, p, {
             value: o[p]
         });
     })({
@@ -151,8 +151,19 @@
                 }
                 i++;
             }
-        }
+       },
     });
+    /* remaining iteration methods */
+    (function(keys) {
+        keys.forEach(function(k) {
+            var ap = Array.prototype[k];
+            defineProperty(Lazy.prototype, k, {
+                value: function(){ 
+                    return ap.apply(this.toArray(), slice.call(arguments))
+                }
+            });
+        });                
+    })('some every reduce reduceRight'.split(' '));
     /* install it to List */
     defineProperty(global.List, 'Lazy', {
         value: Lazy,
