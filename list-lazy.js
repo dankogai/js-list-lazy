@@ -1,5 +1,5 @@
 /*
- * $Id: list-lazy.js,v 0.1 2013/03/10 12:35:28 dankogai Exp dankogai $
+ * $Id: list-lazy.js,v 0.2 2013/03/10 13:43:15 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
@@ -9,7 +9,7 @@
  *    http://docs.python.org/2/library/functions.html#range
  *    https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/prototype
  */
- (function(global) {
+(function(global) {
     if (!global.List) global.List = Object.create(null);
     if (global.List.Lazy) return;
     var defineProperty = Object.defineProperty,
@@ -36,7 +36,8 @@
                 get = function(v, i, o, u) {
                     if (!i) return oget.call(this, v);
                     if (!o) o = this;
-                    return i < o.length ? oget.call(this, v) : u ? new Undef : undefined;
+                    return i < o.length ? 
+                    	oget.call(this, v) : u ? new Undef : undefined;
                 };
             defineProperty(o, 'get', {
                 value: get,
@@ -68,7 +69,8 @@
         });
         return this;
     };
-    /* prototypal properties */ (function(o) {
+    /* prototypal properties */
+    (function(o) {
         for (p in o) defineProperty(Lazy.prototype, p, {
             value: o[p]
         });
@@ -79,7 +81,10 @@
         map: function(f) {
             var g = this.get,
                 fg = function(v, i, o, u) {
-                    return f.call(this, g(v), i, o, u);
+                    var gv = g(v, i, o, true);
+                    return gv instanceof Undef 
+                    	? u ? gv : undefined 
+                    	: f.call(this, gv, i, o, u);
                 },
                 that = new Lazy(this);
             defineProperty(that, 'get', {
@@ -91,10 +96,11 @@
         filter: function(f) {
             var g = this.get,
                 fg = function(v, i, o, u) {
-                    var gv = g(v);
-                    return f.call(this, gv, i, o) 
-                    ? gv 
-                    : u ? new Undef : undefined;
+                    var gv = g(v, i, o, true);
+                    return gv instanceof Undef
+                    	? u ? gv : undefined 
+                    	: f.call(this, gv, i, o, u) 
+                    		? gv : u ? new Undef : undefined;
                 },
                 that = new Lazy(this);
             defineProperty(that, 'get', {
