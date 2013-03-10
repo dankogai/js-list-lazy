@@ -8,6 +8,7 @@
  *    http://jp.rubyist.net/magazine/?0041-200Special-lazy
  *    http://docs.python.org/2/library/functions.html#range
  *    https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/prototype
+ *    http://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
  */
 (function(global) {
     if (!global.List) global.List = Object.create(null);
@@ -125,6 +126,31 @@
         toArray: function() {
             if (!isFinite(this.length)) throw new RangeError;
             return this.take(this.length);
+        },
+        forEach: function(f, thisArg) { /* as Array.prototype.forEach */
+            if (!isFinite(this.length)) throw new RangeError;
+            var l = this.length,
+                i = 0,
+                v;
+            while (i < l) {
+                v = this.get(i, i, this, true);
+                if (v instanceof Undef) l--;
+                else f.call(thisArg || this, v, i, this);
+                i++;
+            }
+        },
+       each: function(f) { /* as jQuery.each */
+            var l = this.length,
+                i = 0,
+                v;
+            loop: while (i < l) {
+                v = this.get(i, i, this, true);
+                if (v instanceof Undef) { l--; }
+                else { 
+                    if( f.call(this, v, i) === false) break loop;
+                }
+                i++;
+            }
         }
     });
     /* install it to List */
