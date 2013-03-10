@@ -39,7 +39,10 @@ describe('List.Lazy', function () {
     };
     it('l.filter(iseven).get(42)', is(l.filter(iseven).get(42), 42));
     it('l.filter(iseven).get(41)', is(l.filter(iseven).get(41), undefined));
-    it('l.filter(iseven).take(4)', is_deeply(l.filter(iseven).take(4), [0, 2, 4, 6]));
+    it('l.filter(iseven).take(4)', 
+       is_deeply(l.filter(iseven).take(4), [0, 2, 4, 6]));
+    it('l.map(square).filter(iseven).take(5)',
+       is_deeply(l.map(square).filter(iseven).take(5), [0,4,16,36,64]));
     var a, err;
     try {
         a = l.toArray();

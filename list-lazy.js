@@ -91,7 +91,10 @@
         filter: function(f) {
             var g = this.get,
                 fg = function(v, i, o, u) {
-                    return f.call(this, v, i, o) ? v : u ? new Undef : undefined;
+                    var gv = g(v);
+                    return f.call(this, gv, i, o) 
+                    ? gv 
+                    : u ? new Undef : undefined;
                 },
                 that = new Lazy(this);
             defineProperty(that, 'get', {
