@@ -9,7 +9,7 @@
  *    http://docs.python.org/2/library/functions.html#range
  *    https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/prototype
  */
-(function(global) {
+ (function(global) {
     if (!global.List) global.List = Object.create(null);
     if (global.List.Lazy) return;
     var defineProperty = Object.defineProperty,
@@ -28,20 +28,28 @@
             });
             return this;
         }
-        if (typeof (o) === 'function') o = {get: o};
+        if (typeof (o) === 'function') o = {
+            get: o
+        };
         if (typeof (o.get) === 'function') {
             var oget = o.get,
                 get = function(v, i, o, u) {
-                if (!i) return oget.call(this, v);
-                if (!o) o = this;
-                return i < o.length ? oget.call(this, v)
-                                    : u ? new Undef : undefined;
-            };
-            defineProperty(o, 'get', {value: get, writable: true});
+                    if (!i) return oget.call(this, v);
+                    if (!o) o = this;
+                    return i < o.length ? oget.call(this, v) : u ? new Undef : undefined;
+                };
+            defineProperty(o, 'get', {
+                value: get,
+                writable: true
+            });
         }
-        if (!o.length) o.length = function(){ return 1/0 };
+        if (!o.length) o.length = function() {
+            return 1 / 0;
+        };
         if (typeof (o.length) === 'function') {
-            defineProperty(o, 'length', {get:o.length});
+            defineProperty(o, 'length', {
+                get: o.length
+            });
         }
         var that = this;
         getOwnPropertyNames(o).forEach(function(p) {
@@ -60,8 +68,7 @@
         });
         return this;
     };
-    /* prototypal properties */
-    (function(o) {
+    /* prototypal properties */ (function(o) {
         for (p in o) defineProperty(Lazy.prototype, p, {
             value: o[p]
         });
@@ -72,7 +79,7 @@
         map: function(f) {
             var g = this.get,
                 fg = function(v, i, o, u) {
-                    return f(g(v), i, o, u);
+                    return f.call(this, g(v), i, o, u);
                 },
                 that = new Lazy(this);
             defineProperty(that, 'get', {
@@ -84,7 +91,7 @@
         filter: function(f) {
             var g = this.get,
                 fg = function(v, i, o, u) {
-                    return f(v, i, o) ? v : u ? new Undef : undefined;
+                    return f.call(this, v, i, o) ? v : u ? new Undef : undefined;
                 },
                 that = new Lazy(this);
             defineProperty(that, 'get', {
@@ -116,8 +123,8 @@
         value: Lazy,
         writable: true
     });
-    /* range */
-    if (!global.List.range) {
+    /* x?range */
+    if (!global.List.xrange) {
         var xrange = function(b, e, s) {
             if (!b) b = 0;
             if (typeof (e) !== 'number') {
@@ -127,7 +134,9 @@
             if (!s) s = 1;
             len = s * b > s * e ? 0 : Math.ceil((e - b) / s);
             return Lazy({
-                get: function(n) {return b + s * n },
+                get: function(n) {
+                    return b + s * n;
+                },
                 length: function() {
                     return len;
                 }
