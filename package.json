@@ -1,0 +1,26 @@
+{
+  "name": "js-list-lazy",
+  "version": "0.0.0",
+  "description": "Lazy List in JavaScript",
+  "main": "list-lazy.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dankogai/js-list-lazy.git"
+  },
+  "keywords": [
+    "Lazy"
+  ],
+  "author": "Dan Kogai",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "47c45b4b25fbcd65e3d5122e2c596ee094e48ada"
+}
