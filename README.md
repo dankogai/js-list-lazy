@@ -138,5 +138,5 @@ List.Integers
 The same thing happens if you try the following in Ruby 2.0:
 
 ````
-(1..Float::INFINITY).lazy.select{|x| x < 100}.take(10)
+(1..Float::INFINITY).lazy.select{|x| x < 5}.take(10).force
 ````
