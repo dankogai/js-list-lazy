@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: list-lazy.js,v 0.1 2013/03/10 12:35:28 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
