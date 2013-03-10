@@ -1,6 +1,6 @@
 {
   "name": "js-list-lazy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lazy List in JavaScript",
   "main": "list-lazy.js",
   "directories": {
