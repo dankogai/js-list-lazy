@@ -1,5 +1,5 @@
 /*
- * $Id: list-lazy.js,v 0.3 2013/03/10 18:19:52 dankogai Exp dankogai $
+ * $Id: list-lazy.js,v 0.10 2013/03/11 01:38:16 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
@@ -37,7 +37,7 @@
                 get = function(v, i, o, u) {
                     if (!i) return oget.call(this, v);
                     if (!o) o = this;
-                    return i < o.length ? 
+                    return i < o.length ?
                     	oget.call(this, v) : u ? new Undef : undefined;
                 };
             defineProperty(o, 'get', {
@@ -83,8 +83,8 @@
             var g = this.get,
                 fg = function(v, i, o, u) {
                     var gv = g(v, i, o, true);
-                    return gv instanceof Undef 
-                    	? u ? gv : undefined 
+                    return gv instanceof Undef
+                    	? u ? gv : undefined
                     	: f.call(this, gv, i, o, u);
                 },
                 that = new Lazy(this);
@@ -99,8 +99,8 @@
                 fg = function(v, i, o, u) {
                     var gv = g(v, i, o, true);
                     return gv instanceof Undef
-                    	? u ? gv : undefined 
-                    	: f.call(this, gv, i, o, u) 
+                    	? u ? gv : undefined
+                    	: f.call(this, gv, i, o, u)
                     		? gv : u ? new Undef : undefined;
                 },
                 that = new Lazy(this);
@@ -149,23 +149,23 @@
             loop: while (i < l) {
                 v = this.get(i, i, this, true);
                 if (v instanceof Undef) { l--; }
-                else { 
-                    if( f.call(this, v, i) === false) break loop;
+                else {
+                    if (f.call(this, v, i) === false) break loop;
                 }
                 i++;
             }
-       },
+       }
     });
     /* remaining iteration methods */
     (function(keys) {
         keys.forEach(function(k) {
             var ap = Array.prototype[k];
             defineProperty(Lazy.prototype, k, {
-                value: function(){ 
-                    return ap.apply(this.toArray(), slice.call(arguments))
+                value: function() {
+                    return ap.apply(this.toArray(), slice.call(arguments));
                 }
             });
-        });                
+        });
     })('some every reduce reduceRight'.split(' '));
     /* install it to List */
     defineProperty(global.List, 'Lazy', {
