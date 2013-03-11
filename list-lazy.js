@@ -110,6 +110,9 @@
             });
             return that;
         },
+        has: function(v, i, o) {
+            return !(this.get(v, i, o, true) instanceof Undef);
+        },
         take: function(n) {
             var ret = [],
                 l = this.length,
