@@ -11,6 +11,7 @@
  *    http://stackoverflow.com/questions/2641347/how-to-short-circuit-array-foreach-like-calling-break
  */
 (function(global) {
+    'use strict';
     if (!global.List) global.List = Object.create(null);
     if (global.List.Lazy) return;
     var defineProperty = Object.defineProperty,
@@ -67,7 +68,7 @@
         });
         return this;
     };
-    /* prototypal properties */
+    /* prototypal properties */ 
     (function(o) {
         for (var p in o) defineProperty(Lazy.prototype, p, {
             value: o[p]
@@ -80,8 +81,7 @@
             var g = this.get,
                 fg = function(v, i, o, u) {
                     var gv = g(v, i, o, true);
-                    return gv instanceof Undef
-                    	? u ? gv : undefined
+                    return gv instanceof Undef ? u ? gv : undefined
                     	: f.call(ctx, gv, i, this, u);
                 },
                 that = new Lazy(this);
@@ -95,8 +95,7 @@
             var g = this.get,
                 fg = function(v, i, o, u) {
                     var gv = g(v, i, o, true);
-                    return gv instanceof Undef
-                    	? u ? gv : undefined
+                    return gv instanceof Undef ? u ? gv : undefined
                     	: f.call(ctx, gv, i, this, u)
                     		? gv : u ? new Undef : undefined;
                 },
@@ -140,19 +139,20 @@
                 i++;
             }
         },
-       each: function(f) { /* as jQuery.each */
+        each: function(f) { /* as jQuery.each */
             var l = this.length,
                 i = 0,
                 v;
             loop: while (i < l) {
                 v = this.get(i, i, this, true);
-                if (v instanceof Undef) { l--; }
-                else {
+                if (v instanceof Undef) {
+                    l--;
+                } else {
                     if (f.call(this, v, i) === false) break loop;
                 }
                 i++;
             }
-       }
+        }
     });
     /* remaining iteration methods */
     (function(keys) {
@@ -179,7 +179,7 @@
                 b = 0;
             }
             if (!s) s = 1;
-            len = s * b > s * e ? 0 : Math.ceil((e - b) / s);
+            var len = s * b > s * e ? 0 : Math.ceil((e - b) / s);
             return Lazy({
                 get: function(n) {
                     return b + s * n;
