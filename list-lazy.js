@@ -76,13 +76,13 @@
         clone: function() {
             return new Lazy(this);
         },
-        map: function(f) {
+        map: function(f, ctx) {
             var g = this.get,
                 fg = function(v, i, o, u) {
                     var gv = g(v, i, o, true);
                     return gv instanceof Undef
                     	? u ? gv : undefined
-                    	: f.call(this, gv, i, o, u);
+                    	: f.call(ctx, gv, i, this, u);
                 },
                 that = new Lazy(this);
             defineProperty(that, 'get', {
@@ -91,13 +91,13 @@
             });
             return that;
         },
-        filter: function(f) {
+        filter: function(f, ctx) {
             var g = this.get,
                 fg = function(v, i, o, u) {
                     var gv = g(v, i, o, true);
                     return gv instanceof Undef
                     	? u ? gv : undefined
-                    	: f.call(this, gv, i, o, u)
+                    	: f.call(ctx, gv, i, this, u)
                     		? gv : u ? new Undef : undefined;
                 },
                 that = new Lazy(this);
@@ -128,7 +128,7 @@
             if (!isFinite(this.length)) throw new RangeError;
             return this.take(this.length);
         },
-        forEach: function(f, thisArg) { /* as Array.prototype.forEach */
+        forEach: function(f, ctx) { /* as Array.prototype.forEach */
             if (!isFinite(this.length)) throw new RangeError;
             var l = this.length,
                 i = 0,
@@ -136,7 +136,7 @@
             while (i < l) {
                 v = this.get(i, i, this, true);
                 if (v instanceof Undef) l--;
-                else f.call(thisArg || this, v, i, this);
+                else f.call(ctx, v, i, this);
                 i++;
             }
         },

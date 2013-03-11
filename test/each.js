@@ -55,6 +55,6 @@ describe('.each vs .forEach', function () {
     } catch (e) {
         err = e;
     }
-    it('l.forEach() throws RangeError', is(err, undefined));
+    it('l.forEach() does not throws RangeError', is(err, undefined));
     it('l.forEach()', is_deeply(a, [0,1,2,3,4]));
 });
