@@ -110,6 +110,62 @@ fb.get(22); // 17711
 fb.take(10) // [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 ````
 
+METHODS
+-------
+
+`List.lazy` objects have following methods
+
+### .map(`callback`, `thisArg`)
+
+Maps value to another value.  Functionally identical to `Array.prototype.map` but the application is deferred till you fetch elements.  For details on `callback` and `thisArg`, see:
+
+https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/map
+
+### .filter(`callback`, `thisArg`)
+
+Filters the element.  Functionally identical to `Array.prototype.filter` but the application is deferred till you fetch elements.  For details on `callback` and `thisArg`, see:
+
+https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/filter
+
+### .get(`index`)
+
+Does what *array*[`index`] does where *array* is an ordinary JavaScript array.  Like *array*[`index`], `undefined` is returned for "nonexistent" keys.  In case of lazy lists it is more like "invalidated" keys that are ruled out by `.filter`.
+
+### .has(`index`)
+
+Does what `index` in *array* does.  Unlike `.get()` which may return `undefined` for valid index, You can tell if the corresponding value is really valid.
+
+### .take(`nelem`)
+
+Takes elements from the beginning of the list *up to* `nelem` elements.  If there are fewer elements (happens with `List.xrange`), It takes the whole elements and return an ordinary array.
+
+### .toArray()
+
+Turns the list into an ordinary array.  Fails with `RangeError` if the list is infinite.
+
+### .forEach(`callback`, `thisArg`)
+
+Applies `callback` to each element.  Functionally identical to `Array.prototype.map` but the application is deferred till you fetch elements.  For details on `callback` and `thisArg`, see:
+
+https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/map
+
+Since there is no way to break out of `callback` invocation (unfortunately it is official), This method fails when the list is infinite.  Therefore `.each` is more recommended.
+
+### .each(`callback`, `thisArg`)
+
+Applies `callback` to each element.  Unlike `.forEach` you can break the iteration by explicitly return `false`.  Therefore you can use this to infinite list  This is a designed behavior of `jQuery.each`.
+
+http://api.jquery.com/jQuery.each/
+
+### Other Iteration Methods
+
+The following methods first tries to convert the list to an array then the resulting array is fed to the corresponding method in `Array.prototype`.
+
++ .every
++ .some
++ .reduce
++ .reduceRight
+
 CAVEAT
 ------
 
