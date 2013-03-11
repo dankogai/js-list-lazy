@@ -27,6 +27,8 @@ describe('xrange', function () {
     var x = List.xrange(42);
     it('xrange(42) instanceof List.Lazy', ok(x instanceof List.Lazy));
     it('xrange(42).length === 42', is(x.length, 42));
+    it('xrange(42).has(42)', is(x.has(42), false));
+    it('xrange(42).has(41)', is(x.has(41), true));
     it('xrange(42).toArray() === range(42)', 
        is_deeply(x.toArray(), List.range(42)));
     it('range(10)', is_deeply(List.range(10), [0,1,2,3,4,5,6,7,8,9]));

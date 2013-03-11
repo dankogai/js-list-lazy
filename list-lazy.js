@@ -35,10 +35,7 @@
         if (typeof (o.get) === 'function') {
             var oget = o.get,
                 get = function(v, i, o, u) {
-                    if (!i) return oget.call(this, v);
-                    if (!o) o = this;
-                    return i < o.length ?
-                    	oget.call(this, v) : u ? new Undef : undefined;
+                    return oget.call(this, v, i, o, u);
                 };
             defineProperty(o, 'get', {
                 value: get,
@@ -110,8 +107,9 @@
             });
             return that;
         },
-        has: function(v, i, o) {
-            return !(this.get(v, i, o, true) instanceof Undef);
+        has: function(i) {
+            if (i >= this.length) return false;
+            return !(this.get(i, i, this, true) instanceof Undef);
         },
         take: function(n) {
             var ret = [],
