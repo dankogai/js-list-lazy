@@ -29,8 +29,10 @@ describe('Array.prototype iteration methods', function () {
        is(xr(5).reduce(function(t,x){ return '' + t + x }), '01234'));
     it('.reduceRight', 
        is(xr(5).reduceRight(function(t,x){ return '' + t + x }), '43210'));
-    it('.some', 
-       is(xr(5).some(function(v){ return v === 0 }), true));
     it('.every', 
        is(xr(5).every(function(v){ return v === 0 }), false));
+    it('.some', 
+       is(xr(5).some(function(v){ return v === 0 }), true));
+    it('List.Integers.some', 
+       is(List.Integers.some(function(v){ return v === 1 }), true));
 });

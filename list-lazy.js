@@ -152,6 +152,21 @@
                 }
                 i++;
             }
+        },
+        some: function(f, ctx) {
+            var l = this.length,
+                i = 0,
+                v;
+            while (i < l) {
+                v = this.get(i, i, this, true);
+                if (v instanceof Undef) {
+                    l--;
+                } else {
+                    if (f.call(ctx, v, i, this)) return true;
+                }
+                i++;
+            }
+            return false;
         }
     });
     /* remaining iteration methods */
@@ -164,7 +179,7 @@
                 }
             });
         });
-    })('some every reduce reduceRight'.split(' '));
+    })('every reduce reduceRight'.split(' '));
     /* install it to List */
     defineProperty(global.List, 'Lazy', {
         value: Lazy,
