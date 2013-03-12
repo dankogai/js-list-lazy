@@ -151,18 +151,23 @@ https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/
 
 Since there is no way to break out of `callback` invocation (unfortunately it is official), This method fails when the list is infinite.  Therefore `.each` is more recommended.
 
-### .each(`callback`, `thisArg`)
+### .each(`callback`)
 
 Applies `callback` to each element.  Unlike `.forEach` you can break the iteration by explicitly return `false`.  Therefore you can use this to infinite list  This is a designed behavior of `jQuery.each`.
 
 http://api.jquery.com/jQuery.each/
+
+### .some(`callback`, `thisArg`)
+
+Same as `Array.prototype.some`.  Unlike `every`, `.some` can be used for infinite list since it takes only one element to determine the whole result.
+
+https://developer.mozilla.org/en/docs/JavaScript/Reference/Global_Objects/Array/some
 
 ### Other Iteration Methods
 
 The following methods first tries to convert the list to an array then the resulting array is fed to the corresponding method in `Array.prototype`.
 
 + .every
-+ .some
 + .reduce
 + .reduceRight
 
