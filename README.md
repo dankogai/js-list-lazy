@@ -9,11 +9,11 @@ USAGE
 -----
 
 ### In Browser
-````
+````html
 <script src="list-lazy.js"></script>
 ````
 ### node.js
-````
+````javascript
 var List = require('./list-lazy.js').List;
 ````
 
@@ -23,7 +23,7 @@ SIMPLE EXAMPLE
 By default `List.Lazy` returns an infinite list
 Note `List.Integers` is exported for convenience.
 
-````
+````javascript
 var ll = List.Lazy(function(i){return i}) // infinite integer;
 ll.length;      // Infinity
 ll.get(1e6);    // 1000000
@@ -42,7 +42,7 @@ Note `List.xrange` is defined that way:
 
 If the length is finite, you can apply `.toArray()`.
 
-````
+````javascript
 var ll = List.Lazy({
     get:function(i){return i},
     length:1e3
@@ -60,11 +60,11 @@ FOR CONVENIENCE
 
 Is an infinite list of integers which is just defined as:
 
-````
+````javascript
 List.Integers = List.Lazy(function(i){return i});
 ````
 
-````
+````javascript
 List.Integers.take(10); // [0,1,2,3,4,5,6,7,8,9]; 
 ````
 
@@ -74,7 +74,7 @@ Same as `xrange()` of Python.
 
 http://docs.python.org/2/library/functions.html#xrange
 
-````
+````javascript
 List.xrange(10).length      // 10
 List.xrange(10).toArray();  // [0,1,2,3,4,5,6,7,8,9];
 List.xrange(1e6).take(10);  // [0,1,2,3,4,5,6,7,8,9];
@@ -84,7 +84,7 @@ List.xrange(1e6).take(10);  // [0,1,2,3,4,5,6,7,8,9];
 
 Same as `range()` of Python which is just defined as:
 
-````
+````javascript
 xrange.apply(null, slice.call(arguments)).toArray();
 ````
 
@@ -93,7 +93,7 @@ MORE SOPHISTICATED EXAMPLE
 
 You can use `this` to memoize like this:
 
-````
+````javascript
 var fib = {
     0:0,
     1:1,
@@ -176,7 +176,7 @@ CAVEAT
 
 This one works fine.
 
-````
+````javascript
 List.Integers
     .map(function(x){ return x*x })
     .filter(function(x){ return x % 2 === 1 })
@@ -186,7 +186,7 @@ List.Integers
 
 While this one DOES NOT.
 
-````
+````javascript
 List.Integers
     .map(function(x){ return x*x })
     .filter(function(x){ return x % 2 === 1 })
@@ -198,6 +198,6 @@ List.Integers
 
 The same thing happens if you try the following in Ruby 2.0:
 
-````
+````ruby
 (1..Float::INFINITY).lazy.select{|x| x < 5}.take(10).force
 ````
