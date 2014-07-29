@@ -58,3 +58,23 @@ describe('.each vs .forEach', function () {
     it('l.forEach() does not throws RangeError', is(err, undefined));
     it('l.forEach()', is_deeply(a, [0,1,2,3,4]));
 });
+describe('.each and .forEach on generators after filter', function() {
+  var generator = { // generates [1, 2, 3, 4, 5]
+    'length': 5,
+    'get': function(n) { return n+1; }
+    },
+    evenFilter = function(x) { return x % 2 === 0; },
+    processed = [],
+    collector = function(x) { processed.push(x); },
+    ll = List.Lazy(generator);
+  
+  processed = [];
+  ll.filter(evenFilter).each(collector);
+  it('each should access all acceptable elements after filtering a generator', is_deeply(processed, [2, 4]));
+
+  processed = [];
+  ll.filter(evenFilter).forEach(collector);
+  it('forEach should access all acceptable elements after filtering a generator', is_deeply(processed, [2, 4]));
+
+});
+
